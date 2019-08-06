@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="field">
+
+    </div>
+
+    <button onclick="check()">check</button>
+    <script>
+        let field = [[1,0,2],[0,2,0],[2,1,0]];
+        let gamer1 = 1;
+        let gamer2 = 2;
+
+        function check(){
+
+            let winHor = checkHorizontalLines();
+	        let winVert =  checkVerticalLines();
+            let winDiag = checkDiagonalLines();
+
+            console.clear();
+	        showField(field);
+
+            if (winHor) {
+                console.log('horizontal line win position')
+            }
+            if (winVert) {
+                console.log('vertical line win position')
+            }
+            if (winDiag) {
+                console.log('diagonal line win position')
+            }
+        }
+
+        function checkHorizontalLines(){
+	        let lineWinFlag = false;
+            field.forEach((line)=>{
+                if (line.every((v)=>v===gamer1)) {
+	                lineWinFlag = true
+                }
+            });
+            field.forEach((line)=>{
+	            if (line.every((v)=>v===gamer2)) {
+		            lineWinFlag = true
+	            }
+            });
+            return (lineWinFlag);
+        }
+        function checkVerticalLines() {
+	        let strokeWinFlag = false;
+            for (i = 0; i<3; i++) {
+	            let stringForChecking = [ field[0][i],field[1][i], field[2][i] ]
+	            if (stringForChecking.every((el)=>el===gamer1)) {strokeWinFlag=true}
+	            if (stringForChecking.every((el)=>el===gamer2)) {strokeWinFlag=true}
+            }
+	        return strokeWinFlag;
+        }
+
+        function checkDiagonalLines() {
+            diag1 = [ field[0][0] ,field[1][1], field[2][2] ];
+            diag2 = [ field[0][2] ,field[1][1], field[2][0] ];
+            return !!(diag1.every(el=>el===gamer1) ||
+            diag1.every(el=>el===gamer2) || diag2.every(el=>el===gamer1) || diag2.every(el=>el===gamer2))
+        }
+
+        function showField(f){
+            f.forEach((el)=>{showString(el); console.log('\n')})
+        }
+
+        function showString(s){
+            let out = s.reduce((acc, cueValue)=>{
+	            return acc + ' ' + cueValue;
+            }, '');
+            console.log(out);
+        }
+    </script>
+</body>
+</html>
